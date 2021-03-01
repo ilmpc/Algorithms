@@ -54,22 +54,28 @@ namespace AlgorithmsDataStructures
         public bool Remove(int _value)
         {
             if (head == null) return false;
-            if (head.value == _value) {
-                head = head.next;
-                if (head == null) tail = null;
-                return true;
-            }
-            Node prev_node = head;
-            Node node = head.next;
+
+            Node prev_node = null;
+            Node node = head;
             while (node != null)
             {
-                if (node.value == _value) {
-                    if (node == tail){
+                if (node.value == _value)
+                {
+                    if (node == tail)
+                    {
                         tail = prev_node;
                     }
-                    prev_node.next = node.next;
+                    if (prev_node == null)
+                    {
+                        head = node.next;
+                    }
+                    else
+                    {
+                        prev_node.next = node.next;
+                    }
                     return true;
                 }
+                prev_node = node;
                 node = node.next;
             }
             return false;
@@ -77,24 +83,7 @@ namespace AlgorithmsDataStructures
 
         public void RemoveAll(int _value)
         {
-            if (head == null) return;
-
-            Node prev_node = null;
-            Node node = head;
-            while (node != null)
-            {
-                if (node.value == _value) {
-                    if (node == tail){
-                        tail = prev_node;
-                    }
-                    if (prev_node == null){
-                        head = node.next;
-                    } else {
-                        prev_node.next = node.next;
-                    }
-                }
-                node = node.next;
-            }
+            while (this.Remove(_value)){}
         }
 
         public void Clear()
@@ -105,7 +94,7 @@ namespace AlgorithmsDataStructures
 
         public int Count()
         {
-            var counter = 0;         
+            var counter = 0;
             Node node = head;
             while (node != null)
             {
@@ -118,12 +107,18 @@ namespace AlgorithmsDataStructures
         public void InsertAfter(Node _nodeAfter, Node _nodeToInsert)
         {
             Node node;
-            if (_nodeAfter == null) {
+            if (_nodeAfter == null)
+            {
                 node = head;
                 head = _nodeToInsert;
-            } else {
-                node = _nodeAfter.next;    
+            }
+            else
+            {
+                node = _nodeAfter.next;
                 _nodeAfter.next = _nodeToInsert;
+            }
+            if (_nodeAfter == tail){
+                tail = _nodeToInsert;
             }
             _nodeToInsert.next = node;
         }
