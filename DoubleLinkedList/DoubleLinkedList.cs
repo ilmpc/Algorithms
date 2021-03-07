@@ -139,13 +139,16 @@ namespace AlgorithmsDataStructures
 
         public void InsertAfter(Node _nodeAfter, Node _nodeToInsert)
         {
-            if (_nodeAfter == head)
+            if (_nodeAfter == null)
             {
                 _nodeToInsert.prev = null;
                 _nodeToInsert.next = head;
                 if (head != null)
                 {
                     head.prev = _nodeToInsert;
+                }
+                else {
+                    tail = _nodeToInsert; 
                 }
                 head = _nodeToInsert;
                 return;
@@ -154,6 +157,8 @@ namespace AlgorithmsDataStructures
             _nodeToInsert.next = _nodeAfter.next;
             if (_nodeAfter.next != null) {
                 _nodeAfter.next.prev = _nodeToInsert;    
+            } else {
+                tail = _nodeToInsert;
             }
             _nodeAfter.next = _nodeToInsert;
             
