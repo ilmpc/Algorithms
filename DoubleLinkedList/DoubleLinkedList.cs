@@ -4,84 +4,160 @@ using System.Collections.Generic;
 namespace AlgorithmsDataStructures
 {
 
-   public class Node
-   {
-     public int value;
-     public Node next, prev;
+    public class Node
+    {
+        public int value;
+        public Node next, prev;
 
-     public Node(int _value) { 
-       value = _value; 
-       next = null;
-       prev = null;
-     }
-   }
+        public Node(int _value)
+        {
+            value = _value;
+            next = null;
+            prev = null;
+        }
+    }
 
-   public class LinkedList2
-   {
-     public Node head;
-     public Node tail;
+    public class LinkedList2
+    {
+        public Node head;
+        public Node tail;
 
-     public LinkedList2()
-     {
-       head = null;
-       tail = null;
-     }
+        public LinkedList2()
+        {
+            head = null;
+            tail = null;
+        }
 
-     public void AddInTail(Node _item)
-     {
-       if (head == null) {
-        head = _item;
-        head.next = null;
-        head.prev = null;
-       } else {
-        tail.next = _item;
-        _item.prev = tail;
-       }
-       tail = _item;
-     }
+        public void AddInTail(Node _item)
+        {
+            if (head == null)
+            {
+                head = _item;
+                head.next = null;
+                head.prev = null;
+            }
+            else
+            {
+                tail.next = _item;
+                _item.prev = tail;
+            }
+            tail = _item;
+        }
 
-     public Node Find(int _value)
-     {
-       // здесь будет ваш код поиска
-       return null;
-     }
+        public Node Find(int _value)
+        {
+            Node node = head;
+            while (node != null)
+            {
+                if (node.value == _value)
+                {
+                    return node;
+                }
+                node = node.next;
+            }
+            return null;
+        }
 
-     public List<Node> FindAll(int _value)
-     {
-       List<Node> nodes = new List<Node>();
-       // здесь будет ваш код поиска всех узлов по заданному значению
-       return nodes;
-     }
+        public List<Node> FindAll(int _value)
+        {
+            List<Node> nodes = new List<Node>();
+            Node node = head;
+            while (node != null)
+            {
+                if (node.value == _value)
+                {
+                    nodes.Add(node);
+                }
+                node = node.next;
+            }
+            return nodes;
+        }
 
-     public bool Remove(int _value)
-     {
-       // здесь будет ваш код удаления одного узла по заданному значению
-       return true; // если узел был удалён
-     }
+        public bool Remove(int _value)
+        {
+            // The Elvis operator is missing here terribly, but it's appears only in C# 6 :c
+            if (head == null) return false;
 
-     public void RemoveAll(int _value)
-     {
-       // здесь будет ваш код удаления всех узлов по заданному значению
-     }
+            Node node = head;
+            while (node != null)
+            {
+                if (node.value == _value)
+                {
+                    if (node == head)
+                    {
+                        if (node.next != null)
+                        {
+                            node.next.prev = null;
+                        }
+                        head = node.next;
+                    }
+                    if (node == tail)
+                    {
+                        if (node.prev != null)
+                        {
+                            node.prev.next = null;
+                        }
+                        tail = node.prev;
+                    }
+                    if (node.next != null)
+                    {
+                        node.next.prev = node.prev;
+                    }
+                    if (node.prev != null)
+                    {
+                        node.prev.next = node.next;
+                    }
+                    return true;
+                }
+                node = node.next;
+            }
+            return false;
+        }
 
-     public void Clear()
-     {
-       // здесь будет ваш код очистки всего списка
-     }
+        public void RemoveAll(int _value)
+        {
+            while (this.Remove(_value)) { }
+        }
 
-     public int Count()
-     {
-       return 0; // здесь будет ваш код подсчёта количества элементов в списке
-     }
+        public void Clear()
+        {
+            head = null;
+            tail = null;
+        }
 
-     public void InsertAfter(Node _nodeAfter, Node _nodeToInsert)
-     {
-       // здесь будет ваш код вставки узла после заданного узла
+        public int Count()
+        {
+            var counter = 0;
+            Node node = head;
+            while (node != null)
+            {
+                counter++;
+                node = node.next;
+            }
+            return counter;
+        }
 
-       // если _nodeAfter = null
-       // добавьте новый элемент первым в списке 
-
-     }
+        public void InsertAfter(Node _nodeAfter, Node _nodeToInsert)
+        {
+            if (_nodeAfter == head)
+            {
+                _nodeToInsert.prev = null;
+                _nodeToInsert.next = head;
+                if (head != null)
+                {
+                    head.prev = _nodeToInsert;
+                }
+                head = _nodeToInsert;
+                return;
+            }
+            _nodeToInsert.prev = _nodeAfter;
+            _nodeToInsert.next = _nodeAfter.next;
+            if (_nodeAfter.next != null) {
+                _nodeAfter.next.prev = _nodeToInsert;    
+            }
+            _nodeAfter.next = _nodeToInsert;
+            
+        }
 
     }
 }
