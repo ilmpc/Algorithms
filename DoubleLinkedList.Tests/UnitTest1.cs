@@ -133,5 +133,33 @@ namespace DoubleLinkedList.Tests
             Assert.Same(node, list.Find(0));
             Assert.Same(node1, list.Find(1));
         }
+
+        private bool WalkFromTailToHead(LinkedList2 list)
+        {
+            var node = list.tail;
+            while (node != list.head) 
+            {
+                node = node.prev;
+            }
+            return true;
+        }
+
+        [Fact]
+        public void CheckPrevIntegrityTest()
+        {
+            var list = new LinkedList2();
+            list.InsertAfter(null, new Node(1));
+            list.AddInTail(new Node(0));
+            var node = new Node(0);
+            list.AddInTail(node);
+            list.InsertAfter(node, new Node(0));
+            list.AddInTail(new Node(0));
+            list.InsertAfter(node, new Node(1));
+            Assert.True(WalkFromTailToHead(list));
+            list.Remove(0);
+            Assert.True(WalkFromTailToHead(list));
+            list.RemoveAll(1);
+            Assert.True(WalkFromTailToHead(list));
+        }
     }
 }
