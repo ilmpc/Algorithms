@@ -1,4 +1,5 @@
 ﻿using System;
+using AlgorithmsDataStructures;
 
 namespace Main
 {
@@ -6,7 +7,18 @@ namespace Main
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var arr = new DynArray<int>();
+            for (int i = 0; i < 17; i++)
+            {
+                arr.Append(i);
+            }
+            arr.Remove(5);
+            arr.Remove(0);
+
+            for (int i = 0; i < 6; i++)
+            {
+                arr.Remove(arr.count - 1);
+            }
         }
     }
 }
