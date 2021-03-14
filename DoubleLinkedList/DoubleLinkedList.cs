@@ -8,24 +8,46 @@ namespace AlgorithmsDataStructures
     {
         public int value;
         public Node next, prev;
-
+        public bool dummy;
         public Node(int _value)
         {
             value = _value;
             next = null;
             prev = null;
+            dummy = false;
+        }
+        private Node()
+        {
+            next = null;
+            prev = null;
+            dummy = true;
+        }
+        public static Node GetDummyNode()
+        {
+            return new Node();
         }
     }
 
     public class LinkedList2
     {
-        public Node head;
-        public Node tail;
+        private readonly Node _head;
+        private readonly Node _tail;
+
+        public Node head {
+            get {
+                return _head.next;
+            }
+        }
+        public Node tail {
+            get {
+                return _tail.prev;
+            }
+        }
 
         public LinkedList2()
         {
-            head = null;
-            tail = null;
+            _head = Node.GetDummyNode();
+            _tail = Node.GetDummyNode();
         }
 
         public void AddInTail(Node _item)
@@ -147,21 +169,25 @@ namespace AlgorithmsDataStructures
                 {
                     head.prev = _nodeToInsert;
                 }
-                else {
-                    tail = _nodeToInsert; 
+                else
+                {
+                    tail = _nodeToInsert;
                 }
                 head = _nodeToInsert;
                 return;
             }
             _nodeToInsert.prev = _nodeAfter;
             _nodeToInsert.next = _nodeAfter.next;
-            if (_nodeAfter.next != null) {
-                _nodeAfter.next.prev = _nodeToInsert;    
-            } else {
+            if (_nodeAfter.next != null)
+            {
+                _nodeAfter.next.prev = _nodeToInsert;
+            }
+            else
+            {
                 tail = _nodeToInsert;
             }
             _nodeAfter.next = _nodeToInsert;
-            
+
         }
 
     }
