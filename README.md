@@ -5,7 +5,7 @@ Repo for my learning programms.
 dotnet new sln -n <sln-name> -o ./
 
 dotnet new classlib -o <lib-name>
-mv ./<lib-name>/Class1.cs <lib-name>.cs
+mv ./<lib-name>/Class1.cs ./<lib-name>/<lib-name>.cs
 dotnet sln add ./<lib-name>/<lib-name>.csproj
 
 dotnet new xunit -o <lib-name>.Tests
