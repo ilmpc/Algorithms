@@ -27,9 +27,33 @@ namespace AlgorithmsDataStructures
             return item;
         }
 
-        public int Size()
+        public int Size() => data.Count;
+
+        public void Rotate(int times)
         {
-            return data.Count;
+            times = times % this.Size();
+            for (int i = 0; i < times; i++)
+            {
+                var node = data.First;
+                data.RemoveFirst();
+                data.AddLast(node);
+            }
+        }
+
+        public override String ToString()
+        {
+            var str = new System.Text.StringBuilder();
+            foreach (var item in data)
+            {
+                str.Append($"{item} <- ");
+            }
+            return str.ToString();
+        }
+        public T[] ToArray() 
+        {
+            var arr = new T[data.Count];
+            data.CopyTo(arr, 0);
+            return arr;
         }
 
     }
