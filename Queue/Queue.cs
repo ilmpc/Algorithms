@@ -4,28 +4,33 @@ using System.Collections.Generic;
 namespace AlgorithmsDataStructures
 {
 
-   public class Queue<T>
-   {
-      public Queue()
-      {
-       // инициализация внутреннего хранилища очереди
-      } 
+    public class Queue<T>
+    {
+        private LinkedList<T> data;
+        public Queue()
+        {
+            data = new LinkedList<T>();
+        }
 
-      public void Enqueue(T item)
-      {
-        // вставка в хвост
-      }
+        // O(1)
+        public void Enqueue(T item)
+        {
+            data.AddLast(item);
+        }
 
-      public T Dequeue()
-      {
-        // выдача из головы
-        return default(T); // если очередь пустая
-      }
+        // O(1)
+        public T Dequeue()
+        {
+            if (data.Count == 0) { return default(T); }
+            var item = data.First.Value;
+            data.RemoveFirst();
+            return item;
+        }
 
-      public int Size()
-      {
-        return 0; // размер очереди
-      }
+        public int Size()
+        {
+            return data.Count;
+        }
 
-   }
+    }
 }
