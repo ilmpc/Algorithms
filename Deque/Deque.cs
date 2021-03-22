@@ -17,16 +17,22 @@ namespace AlgorithmsDataStructures
 
         public T RemoveFront()
         {
-            var temp = data.First is null ? default(T) : data.First.Value;
-            data.RemoveFirst();
-            return temp;
+            if (this.Size() != 0) {
+                var temp = data.First.Value;
+                data.RemoveFirst();
+                return temp;
+            }
+            return default(T);
         }
 
         public T RemoveTail()
         {
-            var temp = data.Last is null ? default(T) : data.Last.Value;
-            data.RemoveLast();
-            return temp;
+            if (this.Size() != 0) {
+                var temp = data.Last.Value;
+                data.RemoveLast();
+                return temp;
+            }
+            return default(T);
         }
 
         public int Size() => data.Count;

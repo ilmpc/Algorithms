@@ -17,7 +17,7 @@ namespace AlgorithmsDataStructures
             Assert.Equal(12, deq.RemoveFront());
             Assert.Equal(21, deq.RemoveFront());
             Assert.Equal(0, deq.Size());
-            Assert.Null(deq.RemoveFront());
+            Assert.Equal(default(int), deq.RemoveFront());
         }
         
         [Fact]
