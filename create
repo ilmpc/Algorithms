@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+dotnet new classlib -o $1
+mv ./$1/Class1.cs ./$1/$1.cs
+dotnet sln add ./$1/$1.csproj
+
+dotnet new xunit -o $1.Tests
+dotnet add ./$1.Tests/$1.Tests.csproj reference ./$1/$1.csproj
+dotnet sln add ./$1.Tests/$1.Tests.csproj
+
+dotnet add ./Main/Main.csproj reference ./$1/$1.csproj
