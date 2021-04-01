@@ -22,11 +22,11 @@ namespace AlgorithmsDataStructures
         public Node<T> head, tail;
         private bool _ascending;
 
-        public OrderedList(bool asc)
+        public OrderedList(bool ascending)
         {
             head = null;
             tail = null;
-            _ascending = asc;
+            _ascending = ascending;
         }
 
         public int Compare(T v1, T v2)
@@ -41,7 +41,7 @@ namespace AlgorithmsDataStructures
                 result = Math.Sign(c1.CompareTo(c2));
             }
 
-            if (_ascending)
+            if (!_ascending)
             {
                 result = -result;
             }
@@ -53,35 +53,92 @@ namespace AlgorithmsDataStructures
 
         public void Add(T value)
         {
-            Node<T> node = head;
-            do
+            var insert_node = new Node<T>(value);
+            InsertAfter(FindPlace(value), insert_node);
+        }
+
+        private Node<T> FindPlace(T value) {
+            var node = head;
+            while (node != null)
             {
-                if (this.Compare(node.value, value) <= 0)
-                {
-                    var current_node = new Node<T>(value);
-                    Node<T> prev;
-                    if (node == head) {
-                        prev = null; //!
-                    } else {
-                        prev = node.prev;
-                    }
-                    prev.next = current_node;
-                    node.prev = current_node;
-                    current_node.prev = prev;
-                    current_node.next = node; 
+                if (Compare(node.value, value) >= 0) {
+                    return node.prev;
                 }
-                node = node?.next;
-            } while (node != null);
+                node = node.next;
+            }
+            return tail;
         }
 
-        public Node<T> Find(T val)
+        
+        private void InsertAfter(Node<T> _nodeAfter, Node<T> _nodeToInsert)
         {
-            return null; // здесь будет ваш код
+            if (_nodeAfter == null)
+            {
+                _nodeToInsert.prev = null;
+                _nodeToInsert.next = head;
+                if (head != null)
+                {
+                    head.prev = _nodeToInsert;
+                }
+                else {
+                    tail = _nodeToInsert; 
+                }
+                head = _nodeToInsert;
+                return;
+            }
+            _nodeToInsert.prev = _nodeAfter;
+            _nodeToInsert.next = _nodeAfter.next;
+            if (_nodeAfter.next != null) {
+                _nodeAfter.next.prev = _nodeToInsert;    
+            } else {
+                tail = _nodeToInsert;
+            }
+            _nodeAfter.next = _nodeToInsert;
+            
         }
 
-        public void Delete(T val)
+        public Node<T> Find(T value)
         {
-            // здесь будет ваш код
+            var node = head;
+            while (node != null)
+            {
+                if (Compare(node.value, value) == 0) {
+                    return node;
+                }
+                node = node.next;
+            }
+            return null;
+        }
+
+        public void Delete(T value)
+        {
+            var node = Find(value);
+            if (node == null) { return; }
+
+            if (node == head)
+            {
+                if (node.next != null)
+                {
+                    node.next.prev = null;
+                }
+                head = node.next;
+            }
+            if (node == tail)
+            {
+                if (node.prev != null)
+                {
+                    node.prev.next = null;
+                }
+                tail = node.prev;
+            }
+            if (node.next != null)
+            {
+                node.next.prev = node.prev;
+            }
+            if (node.prev != null)
+            {
+                node.prev.next = node.next;
+            }
         }
 
         public void Clear(bool asc)
@@ -94,7 +151,7 @@ namespace AlgorithmsDataStructures
         public int Count()
         {
             var count = 0;
-            Node<T> node = head;
+            var node = head;
             while (node != null)
             {
                 count += 1;
@@ -103,17 +160,19 @@ namespace AlgorithmsDataStructures
             return count;
         }
 
-        List<Node<T>> GetAll()
+        public List<Node<T>> GetAll()
         {
-            var r = new List<Node<T>>();
+            var all = new List<Node<T>>();
             var node = head;
             while (node != null)
             {
-                r.Add(node);
+                all.Add(node);
                 node = node.next;
             }
-            return r;
+            return all;
         }
+
+
     }
 
 }
