@@ -65,6 +65,25 @@ namespace AlgorithmsDataStructures
                 Assert.NotEqual(-1, table.Find(s));
             }
         }
+        
+        [Fact]
+        public void Test6()
+        {
+            var table = new HashTable(5, 3);
+            Assert.Equal(-1, table.Find("q"));
+            table = new HashTable(0, 1);
+            Assert.Equal(-1, table.Find("q"));
+        }
+        
+        [Fact]
+        public void Test7()
+        {
+            var table = new HashTable(5, 3);
+            table.SeekSlot("q");
+            table.SeekSlot("");
+            table.SeekSlot(null);
+        }
+        
 
     }
 }

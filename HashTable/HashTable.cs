@@ -20,6 +20,7 @@
 
         public int HashFun(string value)
         {
+            if (value == null) { return 0; }
             // Should be any prime number roughly equal to the number of different characters use
             int p = 31;
             int m = (int)(1e9 + 9);
