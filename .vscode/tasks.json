@@ -14,7 +14,8 @@
                 // Do not generate summary otherwise it leads to duplicate errors in Problems panel
                 "/consoleloggerparameters:NoSummary",
                 // Compile with symbols to debug xUnit tests.
-                "-c Debug"
+                "-c",
+                "Debug"
             ],
             "group": "build",
             "presentation": {
