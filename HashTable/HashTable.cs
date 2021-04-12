@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AlgorithmsDataStructures
+﻿namespace AlgorithmsDataStructures
 {
 
     public class HashTable
@@ -40,6 +37,8 @@ namespace AlgorithmsDataStructures
 
         public int SeekSlot(string value)
         {
+            if (size == 0) { return -1; }
+            
             var hash = HashFun(value);
             var potential = hash;
             do
@@ -47,6 +46,7 @@ namespace AlgorithmsDataStructures
                 if (slots[potential] == null) { return potential; }
                 potential = (potential + step) % size;
             } while (potential != hash);
+
             return -1;
         }
 
@@ -60,6 +60,8 @@ namespace AlgorithmsDataStructures
 
         public int Find(string value)
         {
+            if (size == 0) { return -1; }
+
             var hash = HashFun(value);
             var potential = hash;
             do
