@@ -82,6 +82,8 @@ namespace AlgorithmsDataStructures
             table.SeekSlot("q");
             Assert.Equal(0, table.SeekSlot(""));
             Assert.Equal(0, table.SeekSlot(null));
+            table.HashFun("0123456789");
         }
+
     }
 }

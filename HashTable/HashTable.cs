@@ -1,4 +1,6 @@
-﻿namespace AlgorithmsDataStructures
+﻿using System;
+
+namespace AlgorithmsDataStructures
 {
 
     public class HashTable
@@ -30,7 +32,7 @@
             // Using Polynomial rolling 
             foreach (char ch in value)
             {
-                hash = (hash + (ch - 'a' + 1) * power_of_p) % m;
+                hash = (hash + Math.Abs(ch - 'a' + 1) * power_of_p) % m;
                 power_of_p = (power_of_p * p) % m;
             }
             return (int)(hash % size);
