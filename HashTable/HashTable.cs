@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AlgorithmsDataStructures
 {
@@ -14,18 +15,21 @@ namespace AlgorithmsDataStructures
             this.size = size;
             this.step = step;
             slots = new string[size];
-            Array.Fill(slots, null);
+            for (var i = 0; i < size; i++)
+            {
+                slots[i] = null;
+            }
         }
 
         public int HashFun(string value)
         {
+            // Should be any prime number roughly equal to the number of different characters use
             int p = 31;
             int m = (int)(1e9 + 9);
             long power_of_p = 1;
             long hash = 0;
 
-            // Loop to calculate the hash value
-            // by iterating over the elements of String
+            // Using Polynomial rolling 
             foreach (char ch in value)
             {
                 hash = (hash + (ch - 'a' + 1) * power_of_p) % m;
