@@ -41,12 +41,54 @@ namespace PowerSet.Tests
         [Fact]
         public void Intersection()
         {
-            var data = "Hi!";
             var set1 = new PowerSet<string>();
             var set2 = new PowerSet<string>();
-            set1.Put(data);
-
+            set1.Put("data");
+            set2.Put("Hi!");
+            Assert.Equal(0, set1.Intersection(set2).Size());
+            set1.Put("Hi!");
+            var setInt = set1.Intersection(set2);
+            Assert.Equal(1, setInt.Size());
+            Assert.True(setInt.Get("Hi!"));
         }
+        [Fact]
+        public void Union()
+        {
+            var set1 = new PowerSet<string>();
+            var set2 = new PowerSet<string>();
+            set1.Put("data");
+            Assert.Equal(1, set1.Union(set2).Size());
+            set2.Put("some");
+            Assert.Equal(2, set1.Union(set2).Size());
+        }
+        [Fact]
+        public void Difference()
+        {
+            var set1 = new PowerSet<string>();
+            var set2 = new PowerSet<string>();
+            set1.Put("data");
+            set2.Put("data");
+            Assert.Equal(0, set1.Difference(set2).Size());
+            set1.Put("new");
+            Assert.Equal(1, set1.Difference(set2).Size());
+            set2.Put("any");
+            Assert.Equal(1, set1.Difference(set2).Size());
+        }
+
+        [Fact]
+        public void IsSubset()
+        {
+            var set1 = new PowerSet<string>();
+            var set2 = new PowerSet<string>();
+            set1.Put("data");
+            set2.Put("data");
+            Assert.True(set1.IsSubset(set2));
+            set1.Put("more");
+            Assert.True(set1.IsSubset(set2));
+            set2.Put("diffore");
+            Assert.False(set1.IsSubset(set2));
+        }
+
         [Fact]
         public void Performance()
         {

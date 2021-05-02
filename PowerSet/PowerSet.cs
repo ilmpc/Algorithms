@@ -50,18 +50,20 @@ namespace AlgorithmsDataStructures
                 hash = (hash + Math.Abs(ch - 'a' + 1) * power_of_p) % m;
                 power_of_p = (power_of_p * p) % m;
             }
-            return (int)(hash % capacity);
+            return Math.Abs((int)(hash % capacity));
         }
 
         private int HashFun(T value)
         {
+            if (value == null) { return 0; }
+
             var hash = value.GetHashCode();
-            return (int)(hash % capacity);
+            return Math.Abs(hash % capacity);
         }
 
         public void Put(T value)
         {
-            if (capacity == 0 || size == capacity) { return; }
+            if (capacity == 0 || size == capacity || value == null) { return; }
 
             var hash = HashFun(value);
             var potential = hash;
@@ -83,6 +85,7 @@ namespace AlgorithmsDataStructures
         public bool Get(T value)
         {
             if (capacity == 0) { return false; }
+            if (value == null) { return true; }
 
             var hash = HashFun(value);
             var potential = hash;
@@ -97,8 +100,8 @@ namespace AlgorithmsDataStructures
 
         public bool Remove(T value)
         {
-            if (capacity == 0) { return false; }
-
+            if (capacity == 0 || value == null) { return false; }
+            
             var hash = HashFun(value);
             var potential = hash;
             do
