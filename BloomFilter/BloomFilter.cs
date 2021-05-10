@@ -6,41 +6,61 @@ namespace AlgorithmsDataStructures
 {
     public class BloomFilter
     {
-      public int filter_len;
+        public int length;
+        private uint[] filter;
+        private List<Func<string, int>> hashes;
 
-      public BloomFilter(int f_len)
-      {
-        filter_len = f_len;
-        // создаём битовый массив длиной f_len ...
-      }
-
-      // хэш-функции
-      public int Hash1(string str1)
-      {
-        // 17
-        for(int i=0; i<str1.Length; i++)
+        private int CalcFilterSize(int length)
         {
-            int code = (int)str1[i];
+            var boxes = length / sizeof(uint);
+            if (length % sizeof(uint) != 0)
+            {
+                boxes += 1;
+            }
+            return boxes;
         }
-        // реализация ...
-        return 0;
-      }
-      public int Hash2(string str1)
-      {
-        // 223
-        // реализация ...
-        return 0;
-      }
+        public BloomFilter(int length)
+        {
+            this.length = length;
+            this.filter = new uint[CalcFilterSize(length)];
+            this.hashes = new List<Func<string, int>>() { Hash1, Hash2 };
+        }
 
-      public void Add(string str1)
-      {
-        // добавляем строку str1 в фильтр
-      }
+        private void SetBit(int index)
+        {
+            var box = index / sizeof(uint);
+            index = index % sizeof(uint);
 
-      public bool IsValue(string str1)
-      {
-        // проверка, имеется ли строка str1 в фильтре
-        return false;
-      }
-   }
+            filter[box] |= 1u << index;
+        }
+
+        private bool ReadBit(int index)
+        {
+            var box = index / sizeof(uint);
+            index = index % sizeof(uint);
+
+            return (filter[box] & 1u << index) != 0;
+        }
+        public int Hash1(string element) => Hash(element, 17);
+        public int Hash2(string element) => Hash(element, 223);
+        private int Hash(string element, int seed)
+        {
+            var hash = 0;
+            foreach (var ch in element)
+            {
+                hash = (hash * seed + (int)ch) % length;
+            }
+            return hash;
+        }
+
+        public void Add(string element)
+        {
+            hashes.ForEach((hash) => SetBit(hash(element)));
+        }
+
+        public bool IsValue(string element)
+        {
+            return hashes.TrueForAll((hash) => ReadBit(hash(element)));
+        }
+    }
 }
